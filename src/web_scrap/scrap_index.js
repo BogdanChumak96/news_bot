@@ -22,7 +22,7 @@ export async function scrape() {
 
         await page.waitForSelector('article');
 
-        const articles = await loadArticles(page, 30);
+        const articles = await loadArticles(page, 50);
 
         return articles;
     } catch (error) {
