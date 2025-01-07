@@ -20,7 +20,6 @@ bot.onText(/\/getlist/, async (msg) => {
     try {
         // Remove `const` to update the global `scrapedArticles` variable
         scrapedArticles = await scrape();
-
         if (scrapedArticles.length > 0) {
             const formattedArticles = scrapedArticles.map((article, index) =>
                 `*${index + 1}.* [${article.title}](${article.link})`
@@ -53,8 +52,7 @@ bot.onText(/\/getlist/, async (msg) => {
 
 bot.on('message', async (msg) => {
     const chatId = msg.chat.id;
-
-    if (/^\d+(,\d+)*$/.test(msg.text)) {
+    if (/^\d+(\s*,\s*\d+)*$/.test(msg.text)) {
         if (!scrapedArticles || scrapedArticles.length === 0) {
             await bot.sendMessage(chatId, 'No articles available. Please use /getlist first.');
             return;
@@ -73,7 +71,7 @@ bot.on('message', async (msg) => {
                         const link = article.link;
                         const res = await scrapePostDetails(link);
                         
-                        const message = `[${res.translatedTitle}](${link})\n\n${res.translatedFullText}\n\n` +
+                        const message = `[${res.translatedTitle??link}](${link})\n\n${res.translatedFullText ?? " "}\n\n` +
                                         `${res.image !== 'No Image' ? '' : ''}` +
                                         `\n👍 ${res.likes}\n💬 ${res.comments}`;
                 
