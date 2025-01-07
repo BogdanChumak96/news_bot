@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config()
 
 const authKey = process.env.DEEPL_API_KEY;
+
 const translator = new Translator(authKey);
 
 /**
@@ -14,8 +15,8 @@ const translator = new Translator(authKey);
  */
 export async function translateText(textForTranslate, targetLang, sourceLang = null) {
     try {
-        const {text} = await translator.translateText(textForTranslate, sourceLang, targetLang);
 
+        const {text} = await translator.translateText(textForTranslate, sourceLang, targetLang);
         const usage = await translator.getUsage();
         return {
             translatedText: text,
